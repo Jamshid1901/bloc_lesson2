@@ -40,11 +40,11 @@ class _AddPostState extends State<AddPost> {
                       Container(
                         width: double.infinity,
                         height: 100,
-                        decoration: state.image.isNotEmpty
+                        decoration: (state.postModel?.image.isNotEmpty ?? false)
                             ? BoxDecoration(
                                 image: DecorationImage(
                                     image: FileImage(
-                                      File(state.image),
+                                      File(state.postModel?.image ?? ""),
                                     ),
                                     fit: BoxFit.contain),
                               )
@@ -59,7 +59,8 @@ class _AddPostState extends State<AddPost> {
                   );
                 },
                 listener: (context, state) {
-                  if (state.image.isNotEmpty && state.name.isNotEmpty) {
+                  if ((state.postModel?.image.isNotEmpty ?? false) &&
+                      (state.postModel?.name.isNotEmpty ?? false)) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -128,15 +129,16 @@ class _AddPostState extends State<AddPost> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Text("Name : ${state.name}"),
+                      child: Text("Name : ${state.postModel?.name ?? ""}"),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Text("Category : ${state.category}"),
+                      child:
+                          Text("Category : ${state.postModel?.category ?? ""}"),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Text("Desc :  ${state.desc}"),
+                      child: Text("Desc :  ${state.postModel?.desc ?? ""}"),
                     ),
                   ],
                 );
