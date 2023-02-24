@@ -18,7 +18,7 @@ class OnePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, MainState>(
+            BlocBuilder<CounterCubit, CounterState>(
               buildWhen: (prev, current) {
                 return current.counter != prev.counter;
               },
@@ -30,7 +30,7 @@ class OnePage extends StatelessWidget {
                 );
               },
             ),
-            BlocBuilder<CounterCubit, MainState>(
+            BlocBuilder<CounterCubit, CounterState>(
               buildWhen: (prev, current) {
                 return current.name != prev.name;
               },
