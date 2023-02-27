@@ -1,29 +1,35 @@
 import 'dart:developer';
 
 import 'package:bloc_lesson/add_post_cubit.dart';
+import 'package:bloc_lesson/country/country_cubit.dart';
+import 'package:bloc_lesson/country/country_model.dart';
 import 'package:bloc_lesson/main_cubit.dart';
 import 'package:bloc_lesson/main_state.dart';
 import 'package:bloc_lesson/one_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'add_post.dart';
+import 'country/county_page.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(CountryModelAdapter());
+  Hive.registerAdapter(CountryModelListAdapter());
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       home: BlocProvider(
-        create: (_) => AddPostCubit(),
-        child: const AddPost(),
+        create: (_) => CountryCubit(),
+        child: const CountryPage(),
       ),
     );
   }
