@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bloc_lesson/add_post_cubit.dart';
 import 'package:bloc_lesson/country/country_cubit.dart';
 import 'package:bloc_lesson/country/country_model.dart';
+import 'package:bloc_lesson/country/main_repo.dart';
 import 'package:bloc_lesson/main_cubit.dart';
 import 'package:bloc_lesson/main_state.dart';
 import 'package:bloc_lesson/one_page.dart';
@@ -27,9 +28,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: BlocProvider(
-        create: (_) => CountryCubit(),
-        child: const CountryPage(),
+      home: RepositoryProvider(
+        create: (context) => MainRepo(),
+        child: BlocProvider(
+          create: (context) => CountryCubit(context.read<MainRepo>()),
+          child: const CountryPage(),
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:bloc_lesson/country/main_interface.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,8 @@ import 'country_model.dart';
 part 'country_state.dart';
 
 class CountryCubit extends Cubit<CountryState> {
-  CountryCubit() : super(CountryState());
+  CountryCubit(this._mainService) : super(CountryState());
+  final MainInterface _mainService;
   Box<CountryModelList>? box;
 
   init() async {
@@ -17,13 +19,21 @@ class CountryCubit extends Cubit<CountryState> {
   }
 
   getInformation(String name) async {
-    var res = await http.get(
-        Uri.parse("http://universities.hipolabs.com/search?country=$name"));
-    List<CountryModel> newList = countryModelFromJson(res.body);
+    List<CountryModel> newList = await _mainService.getInformation(name);
     CountryModelList newData =
         CountryModelList(countryList: newList, name: name);
     box?.put(name, newData);
+    //  set box
     state.country?.add(newData);
     emit(CountryState(country: state.country));
+    //  set state
   }
+
+
+  delete(int index){
+    box?.delete(state.country?[index].name);
+    state.country?.removeAt(index);
+    emit(CountryState(country: state.country));
+  }
+
 }

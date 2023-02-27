@@ -47,7 +47,16 @@ class _CountryPageState extends State<CountryPage> {
                     color: Colors.lightBlueAccent,
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.all(8),
-                    child: Text(state.country?[index].name ?? ""),
+                    child: Row(
+                      children: [
+                        Text(state.country?[index].name ?? ""),
+                        IconButton(
+                            onPressed: () {
+                              context.read<CountryCubit>().delete(index);
+                            },
+                            icon: Icon(Icons.delete))
+                      ],
+                    ),
                   ),
                 );
               });
